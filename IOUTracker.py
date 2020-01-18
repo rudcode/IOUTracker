@@ -37,6 +37,18 @@ class IOUTracker():
                 tracks += self.tracks_active[frame].items()
         return tracks
 
+    #Get all active tracks
+    def get_active_tracks(self):
+        tracks = {}
+        frames = range(self.frame, self.frame - self.t_max, -1)
+        for frame in frames:
+            if frame in self.tracks_active:
+                if self.verbose:
+                    print("[LOG]: Frame {} Tracks Retrieved: {}".format(frame,self.tracks_active[frame].keys()))
+                for _id in self.tracks_active[frame].keys():
+                    tracks[_id] = self.tracks_active[frame][_id]
+        return tracks
+
     def track(self, detections):
         self.frame += 1
         self.tracks_active[self.frame] = {}
