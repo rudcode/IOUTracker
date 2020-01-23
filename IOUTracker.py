@@ -40,13 +40,17 @@ class IOUTracker():
     #Get all active tracks
     def get_active_tracks(self):
         tracks = {}
-        frames = range(self.frame, self.frame - self.t_max, -1)
+        frames = range(self.frame - self.t_max - 1, self.frame + 1)
         for frame in frames:
             if frame in self.tracks_active:
                 if self.verbose:
                     print("[LOG]: Frame {} Tracks Retrieved: {}".format(frame,self.tracks_active[frame].keys()))
                 for _id in self.tracks_active[frame].keys():
                     tracks[_id] = self.tracks_active[frame][_id]
+                    if frame == self.frame:
+                        tracks[_id]['active'] = True
+                    else:
+                        tracks[_id]['active'] = False
         return tracks
 
     def track(self, detections):
